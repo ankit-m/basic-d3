@@ -22,7 +22,7 @@
         /*width: 20px;*/
         /*height: 75px;*/
         margin-right: 2px;
-        fill: teal;
+        /*fill: teal;*/
       }
     </style>
   </head>
@@ -31,7 +31,7 @@
 
     <script type="text/javascript">
 
-      var dataset = _.map(_.range(200), function(i) {
+      var dataset = _.map(_.range(70), function(i) {
         return Math.random()*100;
       });
 
@@ -48,6 +48,10 @@
         .domain([0, d3.max(dataset) * 1.1])
         .range([0, h]);
 
+      var colorScale = d3.scale.quantize()
+        .domain([0, d3.max(dataset)])
+        .range(['yellow', 'orange', 'green']);
+
       svg.selectAll('rect')
         .data(dataset)
         .enter()
@@ -62,7 +66,8 @@
         .attr('width', xScale.rangeBand())
         .attr('height', function (d) {
           return yScale(d);
-        });
+        })
+        .attr('fill', colorScale);
     </script>
   </body>
 </html>
