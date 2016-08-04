@@ -39,25 +39,26 @@
 
     <script type="text/javascript">
 
-      // function update () {
-      //   _.each(dataset, function (datum)) {
-      //     datum.x = Math.round(Math.random() * 100);
-      //     datum.y = Math.round(Math.random() * 100);
-      //     datum.r = Math.round( 5 + Math.random() * 10);
-      //   }
-      //
-      //   svg.selectAll('circle')
-      //     .
-      //     .attr('cx', function (d) {
-      //       return xScale(d.x);
-      //     })
-      //     .attr('cy', function (d) {
-      //       return yScale(d.y);
-      //     })
-      //     .attr('r', function (d) {
-      //       return d.r;
-      //     });
-      // }
+      function update () {
+        _.each(dataset, function (datum) {
+          datum.x = Math.round(Math.random() * 100);
+          datum.y = Math.round(Math.random() * 100);
+          datum.r = Math.round( 5 + Math.random() * 10);
+        })
+
+        svg.selectAll('circle')
+          .transition()
+          .duration(500)
+          .attr('cx', function (d) {
+            return xScale(d.x);
+          })
+          .attr('cy', function (d) {
+            return yScale(d.y);
+          })
+          .attr('r', function (d) {
+            return d.r;
+          });
+      }
 
       var dataset = _.map(_.range(50), function(i) {
         return {
@@ -66,20 +67,25 @@
           r: Math.random() * 30
         }
       });
+      dataset.push({x:0, y:0, r:10});
 
-      var w = 400, h = 300;
+      var margin = {top: 20, right: 20, bottom: 60, left: 60};
+
+      var w = 400 - margin.left - margin.right,
+        h = 300 - margin.top - margin.bottom;
+
       var svg = d3.select('#chartArea').append('svg')
-        .attr('width', w)
-        .attr('height', h);
+        .attr('width', w + margin.left + margin.right)
+        .attr('height', h + margin.top + margin.bottom);
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
       var xScale = d3.scale.linear()
         .domain([0, 100])
         .range([0, w]);
 
       var yScale = d3.scale.linear()
-        .domain([0, d3.max(dataset, function (d) {
-          return d.y;
-        })])
+        .domain([0, 100])
         .range([0, h]);
 
       var colorScale = d3.scale.quantize()
@@ -107,5 +113,6 @@
           d3.select(this).style('fill', 'purple');
         });
     </script>
+    <button type="button" name="button" onclick="update()">Update</button>
   </body>
 </html>

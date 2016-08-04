@@ -48,9 +48,9 @@
         .domain([0, d3.max(dataset) * 1.1])
         .range([0, h]);
 
-      var colorScale = d3.scale.quantize()
+      var colorScale = d3.scale.linear()
         .domain([0, d3.max(dataset)])
-        .range(['yellow', 'orange', 'green']);
+        .range(['yellow', 'green']);
 
       svg.selectAll('rect')
         .data(dataset)
